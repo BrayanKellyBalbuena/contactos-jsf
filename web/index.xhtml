@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>View Contacts</title>
+        <h:outputStylesheet  name="css/libs/bootstrap/bootstrap.min.css" />
+        <h:outputStylesheet  name="css/style.css" />
+    </h:head>
+    <h:body>
+        <div class="container">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-info text-center">
+                        <h3> Contacts List</h3>
+                    </div>
+                    <div class="card-block">
+                        <h:form>
+                            <p:dataTable var = "contact" value = "#{contactView.contacts}" rows="5"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}{RowsPerPageDropdown}"
+                                         widgetVar ="contactsTable"
+                                         filteredValue="#{contactView.filteredContacts}"
+                                         emptyMessage ="No contacts found  with given cirteria"
+                                         class="table  table-hover">
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('contactsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
+                                  
+                                <p:column filterBy="#{contact.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
+                                    <h:outputText value="#{contact.id}"/>                   
+                                </p:column>
+                                
+                                <p:column filterBy="#{contact.firstName}" headerText="First Name" footerText="contains" filterMatchMode="contains">
+                                    <h:outputText value="#{contact.firstName}"> </h:outputText>
+                                </p:column>
+                                
+                                <p:column filterBy="#{contact.lastName}" headerText="Last Name" footerText="contains" filterMatchMode="contains">
+                                    <h:outputText value="#{contact.lastName}"/>
+                                       
+                                </p:column>
+
+                                <p:column filterBy="#{contact.phone}" headerText="Phone Number" footerText="contains" filterMatchMode="contains">
+                                    <h:outputText value="#{contact.phone}"/> 
+                                      
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">Actions</f:facet>
+                                        <h:commandButton class="btn btn-sm btn-warning" action="#{contactBean.update(contact.id)}" value="update"/>
+                                        <h:commandButton class="btn btn-sm btn-danger" action="#{contactBean.delete(contact.id)}" value="delete"/>                                   
+                                </p:column>
+                                <f:facet name="paginatorTopLeft">
+                                    <p:commandButton type="button" icon="fa fa-sync" />
+                                </f:facet>
+
+                                <f:facet name="paginatorBottomRight">
+                                    <p:commandButton type="button" icon="fa fa-cloud-upload" />
+                                </f:facet>
+                            </p:dataTable>
+                        </h:form><br/>
+                    </div>
+                    <div class="card-footer">
+                        <h:form>
+                            <h:commandButton class="btn btn-md btn-info" action="add_contact"  value="Add Contact"></h:commandButton>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+
